@@ -11,9 +11,9 @@ Maven
 - Pick an endpoint, input relevant data and click 'try it out'
 
 ## Endpoints and functionality
-Swagger-ui enabled...
+Swagger-ui use...
 
 ## Considerations
-Custom exceptions and errors:
+Custom exceptions and error handling:
 
 Ignored package vulnerbilities:
