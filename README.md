@@ -6,6 +6,7 @@ Java backend
 
 ## How to run
 
+## Endpoints and functionality
 
 ## Considerations
 Custom exceptions and errors:
