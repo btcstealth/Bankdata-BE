@@ -1,0 +1,10 @@
+<settings>
+    <servers>
+        <server>
+            <!-- Add the API key as a property -->
+            <properties>
+                <api.key>9f4cf4f410820d6d9f8073f6</api.key>
+            </properties>
+        </server>
+    </servers>
+</settings>
