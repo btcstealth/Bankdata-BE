@@ -88,7 +88,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-agroal</artifactId>
         </dependency>
-        <!-- TODO: Add swagger-ui and whatever is needed for h2 support -->
+        <!-- https://mvnrepository.com/artifact/io.quarkus/quarkus-smallrye-openapi -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+            <version>3.16.3</version>
+        </dependency>
     </dependencies>
 
     <build>
