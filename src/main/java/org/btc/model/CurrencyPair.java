@@ -1,10 +1,14 @@
 package org.btc.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class CurrencyAmount {
+public class CurrencyPair {
+    //@JsonFormat(shape = JsonFormat.Shape.String)
     private String currencyUnit;
+
+    @JsonFormat(locale = "da_DK", shape = JsonFormat.Shape.STRING, pattern = "#,##0.00")
     private double amount;
 
     public String getCurrencyUnit() {

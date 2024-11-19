@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Singleton;
-import org.btc.model.CurrencyAmount;
+import org.btc.model.CurrencyPair;
 import org.btc.model.CurrencyExchange;
 
 @Singleton
@@ -17,10 +17,10 @@ public class ExchangeMapper {
     }
 
     public CurrencyExchange mapToCurrencyExchange(String fromCurrency, String toCurrency, double fromAmount, double toAmount) {
-        CurrencyAmount fromCurrencyAmount = new CurrencyAmount();
+        CurrencyPair fromCurrencyAmount = new CurrencyPair();
         fromCurrencyAmount.setCurrencyUnit(fromCurrency);
         fromCurrencyAmount.setAmount(fromAmount);
-        CurrencyAmount toCurrencyAmount = new CurrencyAmount();
+        CurrencyPair toCurrencyAmount = new CurrencyPair();
         toCurrencyAmount.setCurrencyUnit(toCurrency);
         toCurrencyAmount.setAmount(toAmount);
         CurrencyExchange currencyExchange = new CurrencyExchange();

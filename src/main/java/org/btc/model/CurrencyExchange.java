@@ -1,45 +1,39 @@
 package org.btc.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
+@JsonSerialize(using = CurrencyExchangeSerializer.class)
 public class CurrencyExchange {
 
     @Inject
-    private CurrencyAmount fromCurrency;
+    private CurrencyPair fromCurrency;
     @Inject
-    private CurrencyAmount toCurrency;
+    private CurrencyPair toCurrency;
 
-    public CurrencyAmount getFromCurrency() {
+    public CurrencyPair getFromCurrency() {
         return fromCurrency;
     }
 
-    public void setFromCurrency(CurrencyAmount fromCurrency) {
+    public void setFromCurrency(CurrencyPair fromCurrency) {
         this.fromCurrency = fromCurrency;
     }
 
-    public CurrencyAmount getToCurrency() {
+    public CurrencyPair getToCurrency() {
         return toCurrency;
     }
 
-    public void setToCurrency(CurrencyAmount toCurrency) {
+    public void setToCurrency(CurrencyPair toCurrency) {
         this.toCurrency = toCurrency;
-    }
-
-    public String toJson() {
-        //TODO: Change conversion via json format library instead likely related to jackson in separate class transformer
-        //TODO: Remember to fix to danish format for decimals: ',' instead of '.'.
-        return String.format("{ \"%s\": %s, \"%s\": %s }",
-                getFromCurrency().getCurrencyUnit(),
-                getFromCurrency().getAmount(),
-                getToCurrency().getCurrencyUnit(),
-                getToCurrency().getAmount()
-        );
     }
 
     @Override
     public String toString() {
-        return "Exchange" + toJson();
+        return "CurrencyExchange{" +
+                "fromCurrency=" + fromCurrency +
+                ", toCurrency=" + toCurrency +
+                '}';
     }
 }
