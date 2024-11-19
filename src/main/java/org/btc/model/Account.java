@@ -15,7 +15,7 @@ public class Account {
     private String firstName;
     @NotBlank(message = "Lastname may not be blank")
     private String lastName;
-    @NotBlank(message = "Balance has to be defined")
+    //@NotBlank(message = "Balance has to be defined")
     private double balance;
     @NotBlank(message = "Currency unit has to be defined")
     private String currencyUnit;

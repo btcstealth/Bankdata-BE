@@ -9,10 +9,10 @@ public interface AccountService {
     List<Account> getAllAccounts();
     Account createAccount(Account account);
 
-    void depositIntoAccount(int accountNumber, double fundsAmount);
+    void depositIntoAccount(Long accountNumber, double fundsAmount);
 
-    void transferFunds(int senderAccountNumber, int retrieverAccountNumber, double amount);
+    void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double amount);
 
-    double getAccountBalance(int accountNumber);
+    double getAccountBalance(Long accountNumber);
 
 }

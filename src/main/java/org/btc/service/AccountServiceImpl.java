@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import org.btc.dao.AccountDao;
 import org.btc.model.Account;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,26 +21,51 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account account) {
-        return null;
+        return accountDao.createAccount(account);
     }
 
     @Override
-    public void depositIntoAccount(int accountNumber, double fundsAmount) {
+    public void depositIntoAccount(Long accountNumber, double fundsAmount) {
+        if (accountDao.getAccount(accountNumber) != null) {
+            accountDao.depositIntoAccount(accountNumber, fundsAmount);
+        }
     }
 
     @Override
-    public void transferFunds(int senderAccountNumber, int retrieverAccountNumber, double amount) {
+    public void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double fundsAmount) {
+        if (isAllowedToPerformTransfer(senderAccountNumber, retrieverAccountNumber, fundsAmount)) {
+            accountDao.transferFunds(senderAccountNumber, retrieverAccountNumber, fundsAmount);
+        }
+    }
 
+    private boolean isAllowedToPerformTransfer(Long senderAccountNumber, Long retrieverAccountNumber, double fundsAmount) {
+        return accountExists(senderAccountNumber) &&
+                accountExists(retrieverAccountNumber) &&
+                isAuthenticatedForSenderAccount() &&
+                hasBalanceForTransfer(senderAccountNumber, fundsAmount);
+    }
+
+
+    private boolean hasBalanceForTransfer(Long senderAccountNumber, double fundsAmount) {
+        return this.getAccountBalance(senderAccountNumber) >= fundsAmount;
+    }
+
+    private boolean accountExists(Long accountNumber) {
+        return accountDao.getAccount(accountNumber) != null;
     }
 
     @Override
-    public double getAccountBalance(int accountNumber) {
-        return getAccount(accountNumber).getBalance();
+    public double getAccountBalance(Long accountNumber) {
+        if (isAuthenticatedForSenderAccount()) {
+            return accountDao.getAccount(accountNumber).getBalance();
+        } else {
+            // throw some authentication error
+            throw new RuntimeException();
+        }
     }
 
-    private Account getAccount(int accountNumber) {
-        //In case the accountNumber doesn't exist, throw a runtime exception with a customer error code from the gateway level.
-        //Should no allowed the consumer to continuously attempt guessing potential accountNumbers, even with later auth and rate limiting.
-        return null;
+    private boolean isAuthenticatedForSenderAccount() {
+        //TODO: implement some authentication logic
+        return true;
     }
 }
