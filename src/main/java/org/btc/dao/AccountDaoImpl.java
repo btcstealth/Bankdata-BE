@@ -30,11 +30,26 @@ public class AccountDaoImpl implements AccountDao {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
+    
     @Override
     public Account createAccount(Account account) {
-        return null;
+        final String queryCreateAccount =
+                String.format("INSERT INTO account(accountNumber, firstName, lastName, balance)" +
+                        "VALUES(%d, %s, %s, %d);",
+                        account.getAccountNumber(),
+                        account.getFirstName(),
+                        account.getLastName(),
+                        account.getLastName()
+                );
+        try {
+            ResultSet resultSet = executeQuery(queryCreateAccount);
+            while (resultSet.next()) {
+                return prepareAccount(resultSet);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        throw new RuntimeException();
     }
 
     private Account prepareAccount(ResultSet resultSet) throws SQLException {
