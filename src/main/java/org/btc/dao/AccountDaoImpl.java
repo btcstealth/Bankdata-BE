@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import org.btc.model.Account;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.*; //TODO: avoid this, be explicit
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,10 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public List<Account> getAllAccounts() {
+        final String queryGetAllAccounts = "SELECT * FROM Account";
         List<Account> accountList = new ArrayList<>();
         try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Account");
+            ResultSet resultSet = executeQuery(queryGetAllAccounts);
             while (resultSet.next()) {
                 accountList.add(prepareAccount(resultSet));
             }
@@ -32,22 +31,18 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
-    private Account prepareAccount(ResultSet resultSet) throws SQLException {
-        Account account = new Account();
-        Long accountNumber = resultSet.getLong(1);
-        account.setAccountNumber(accountNumber);
-        String firstName = resultSet.getString(2);
-        account.setFirstName(firstName);
-
-        String lastName = resultSet.getString(3);
-        account.setLastName(lastName);
-        return account;
-    }
-
 
     @Override
     public Account createAccount(Account account) {
         return null;
+    }
+
+    private Account prepareAccount(ResultSet resultSet) throws SQLException {
+        return new Account()
+                .withAccountNumber(resultSet.getLong(1))
+                .withFirstName(resultSet.getString(2))
+                .withLastName(resultSet.getString(3))
+                .withBalance(resultSet.getLong(4));
     }
 
     @Override
@@ -70,5 +65,11 @@ public class AccountDaoImpl implements AccountDao {
     public Account getAccount(int accountNumber) {
         //implement h2 database access here
         return null;
+    }
+
+    private ResultSet executeQuery(final String query) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+        return statement.executeQuery();
     }
 }
