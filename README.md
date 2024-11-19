@@ -2,8 +2,8 @@
 Java backend
 
 ## Dependencies
-Java
-Maven
+- Java
+- Maven
 
 ## How to run
 - Run with command in cmd: ./mvnw compile quarkus:dev
