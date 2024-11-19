@@ -1,11 +1,16 @@
 package org.btc.model;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
 @ApplicationScoped
+@Entity
 public class Account {
-    private int accountNumber;
+
+    @Id
+    private Long accountNumber;
     @NotBlank(message = "Firstname may not be blank")
     private String firstName;
     @NotBlank(message = "Lastname may not be blank")
@@ -15,14 +20,14 @@ public class Account {
     @NotBlank(message = "Currency unit has to be defined")
     private String currencyUnit;
 
-    public int getAccountNumber() {
+    public Long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
-    public Account withAccountNumber(int accountNumber) {
+    public Account withAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
         return this;
     }

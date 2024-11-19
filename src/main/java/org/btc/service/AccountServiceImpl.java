@@ -1,6 +1,8 @@
 package org.btc.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import org.btc.dao.AccountDao;
 import org.btc.model.Account;
 
 import java.util.List;
@@ -8,9 +10,12 @@ import java.util.List;
 @ApplicationScoped
 public class AccountServiceImpl implements AccountService {
 
+    @Inject
+    AccountDao accountDao;
+
     @Override
-    public List<Account> getAccounts(int accountNumber) {
-        return null;
+    public List<Account> getAllAccounts() {
+        return accountDao.getAllAccounts();
     }
 
     @Override

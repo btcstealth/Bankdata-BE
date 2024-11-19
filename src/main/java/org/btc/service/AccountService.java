@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountService {
-    List<Account> getAccounts(int accountNumber);
+    List<Account> getAllAccounts();
     Account createAccount(Account account);
 
     void depositIntoAccount(int accountNumber, double fundsAmount);

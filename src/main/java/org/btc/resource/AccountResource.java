@@ -20,7 +20,7 @@ public class AccountResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Account> getAllAccounts() {
-        return new ArrayList<>();
+        return accountService.getAllAccounts();
     }
 
     @POST
