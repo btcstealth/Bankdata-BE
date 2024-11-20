@@ -11,13 +11,10 @@ import static org.hamcrest.CoreMatchers.is;
 class AccountResourceTest {
     @Test
     void testGetAllAccountsEndpoint() {
-        final String expectedBody = "";
-
         given()
                 .when().get("/account")
                 .then()
                 .statusCode(200);
-                //.body(is(expectedBody));
     }
 
     @Test
@@ -29,11 +26,11 @@ class AccountResourceTest {
         Account expectedAccount = account;
 
         final Account expectedAccentPresentAfterCreate = account;
-
-
+        
         // act and assert
-        //provide the account as input and likely need another type of body comparison ignoring id, if the ids are auto generated.
+        //figure out how to add input
         given()
+                //.param(account)
                 .when().post("/account")
                 .then()
                 .statusCode(200);
@@ -44,12 +41,26 @@ class AccountResourceTest {
 
     @Test
     void testDepositFundsEndpoint() {
+        // arrange
+        long accountNumber = 112345678;
+        double toDepositFunds = 1000000;
+        String expectedTotalBalance = "3500000.0";
+
+        // deposit funds to bank account.
         given()
-                .when().patch("{accountNumber}/deposit/{funds}")
+                .pathParam("accountNumber", accountNumber)
+                .pathParam("funds", toDepositFunds)
+                .when().patch("/account/{accountNumber}/deposit/{funds}")
                 .then()
                 .statusCode(204);
 
-        // Can be argued to assert on updated account balance as well.
+        // check that the total balance is correct after deposit.
+        given()
+                .pathParam("accountNumber", accountNumber)
+                .when().get("/account/{accountNumber}/balance")
+                .then()
+                .statusCode(200)
+                .body(is(expectedTotalBalance));
     }
 
     @Test
@@ -58,7 +69,7 @@ class AccountResourceTest {
         final int receiverAccountNumber = 183345678;
 
         given()
-                .when().patch("{senderAccountNumber}/receiver/{receiverAccountNumber}/funds/{funds}")
+                .when().patch("/account/{senderAccountNumber}/receiver/{receiverAccountNumber}/funds/{funds}")
                 .then()
                 .statusCode(204);
 
@@ -67,12 +78,13 @@ class AccountResourceTest {
 
     @Test
     void testGetBalanceEndpoint() {
-        final int accountNumber = 112345678;
-        final double expectedBalance = 1525000.0;
+        final long accountNumber = 112345678;
+        final String expectedBalance = "2500000.0";
         given()
-            .when().get("/{accountNumber}/balance")
-            .then()
-            .statusCode(200)
+                .pathParam("accountNumber", accountNumber)
+                .when().get("/account/{accountNumber}/balance")
+                .then()
+                .statusCode(200)
                 .body(is(expectedBalance));
     }
 }
