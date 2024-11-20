@@ -45,7 +45,7 @@ eg.
   "DKK": 100,00,
   "USD": 14,20
 }
-Rather than: 
+rather than format 
 {
   "DKK": "100,00",
   "USD": "14,20"
