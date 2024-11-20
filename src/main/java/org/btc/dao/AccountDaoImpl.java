@@ -78,12 +78,43 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void depositIntoAccount(Long accountNumber, double fundsAmount) {
+    public void updateAccountBalance(Long accountNumber, double newBalance) {
+        final String query = "UPDATE account " +
+                "SET balance = ?" +
+                "WHERE account_number = ?";
+        try {
+            Connection connection = this.dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setDouble(1, newBalance);
+            statement.setLong(2, accountNumber);
+            int result = statement.executeUpdate();
+            logger.info("Update request result: " + result);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double amount) {
+        //TODO: update this
 
+        /*
+        final String query = "UPDATE account " +
+                "SET balance = ?" +
+                "WHERE account_number = ?";
+
+        try {
+            Connection connection = this.dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, accountNumber);
+            statement.setLong(2, accountNumber);
+            int result = statement.executeUpdate();
+            logger.info("Update request result: " + result);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+         */
     }
 
     @Override
@@ -96,6 +127,10 @@ public class AccountDaoImpl implements AccountDao {
             while (resultSet.next()) {
                 existingAccount = prepareAccount(resultSet);
             }
+            //TODO: refactor this
+            //statement.close();
+            //connection.close();
+
             if (existingAccount == null) {
                 throw new RuntimeException();
             }
@@ -111,17 +146,11 @@ public class AccountDaoImpl implements AccountDao {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, accountNumber);
         ResultSet resultSet = statement.executeQuery();
-
-        //TODO: refactor this
-        statement.close();
-        connection.close();
         return resultSet;
     }
 
     @Override
     public double getAccountBalance(Long accountNumber) throws SQLException {
-        double accountBalance = 0.0;
-
         final String queryGetAccountByAccountNumber = "SELECT balance FROM Account WHERE account_number = ?";
         Connection connection = this.dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement(queryGetAccountByAccountNumber);
@@ -130,7 +159,7 @@ public class AccountDaoImpl implements AccountDao {
         try {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                resultSet.getDouble("balance");
+                return resultSet.getDouble("balance");
             }
         } catch (Exception e) {
             //potentially handle differently
@@ -138,6 +167,6 @@ public class AccountDaoImpl implements AccountDao {
         } finally {
             statement.close();
         }
-        return accountBalance;
+        throw new RuntimeException();
     }
 }

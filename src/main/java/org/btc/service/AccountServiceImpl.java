@@ -26,9 +26,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void depositIntoAccount(Long accountNumber, double fundsAmount) {
-        if (accountDao.getAccount(accountNumber) != null) {
-            accountDao.depositIntoAccount(accountNumber, fundsAmount);
-        }
+        accountDao.updateAccountBalance(accountNumber, this.getAccountBalance(accountNumber) + fundsAmount);
     }
 
     @Override
@@ -54,10 +52,15 @@ public class AccountServiceImpl implements AccountService {
         return accountDao.getAccount(accountNumber) != null;
     }
 
+
     @Override
     public double getAccountBalance(Long accountNumber) {
         if (isAuthenticatedForSenderAccount()) {
-            return accountDao.getAccount(accountNumber).getBalance();
+            try {
+                return accountDao.getAccountBalance(accountNumber);
+            } catch (SQLException sqlException) {
+                throw new RuntimeException();
+            }
         } else {
             // throw some authentication error
             throw new RuntimeException();

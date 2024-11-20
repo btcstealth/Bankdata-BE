@@ -11,7 +11,7 @@ public interface AccountDao {
     List<Account> getAllAccounts();
     Account createAccount(Account account);
 
-    void depositIntoAccount(Long accountNumber, double fundsAmount);
+    void updateAccountBalance(Long accountNumber, double newBalance);
 
     void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double amount);
 
