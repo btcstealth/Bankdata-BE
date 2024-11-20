@@ -1,7 +1,11 @@
 package org.btc.resource;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*; //TODO: fix * import into separate ones, check intellij settings
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.btc.model.CurrencyExchange;
 import org.btc.service.ExchangeService;
@@ -11,9 +15,9 @@ public class ExchangeResource {
     @Inject
     ExchangeService exchangeService;
 
-    //TODO: This path can be done better.
+    //TODO: Consider making amount an option field on the other endpoint instead.
     @GET
-    @Path("{fromCurrency}/{toCurrency}/funds/{amount}")
+    @Path("rate/{fromCurrency}/{toCurrency}/{amount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public CurrencyExchange exchangeCurrency(
@@ -21,7 +25,6 @@ public class ExchangeResource {
             @PathParam("toCurrency") String toCurrency,
             @PathParam("amount") double amount) {
         //TODO: Would be better to handle the json format conversion part here with libraries instead, eg. jackson.
-
         return exchangeService.exchange(fromCurrency, toCurrency, amount);
     }
 
