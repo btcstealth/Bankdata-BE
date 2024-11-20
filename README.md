@@ -38,4 +38,20 @@ Custom exceptions and error handling:
 Ignored package vulnerbilities:
 
 ## TODO
+Return exchange object with proper danish formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
+eg.
+
+{
+  "DKK": 100,00,
+  "USD": 14,20
+}
+
+Rather than:
+ 
+{
+  "DKK": "100,00",
+  "USD": "14,20"
+}
+
+
 Proper dao/database layer handling
