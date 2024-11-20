@@ -38,6 +38,7 @@ Custom exceptions and error handling:
 Ignored package vulnerbilities:
 
 ## TODO
+### Danish double or BigDecimal format
 - Return exchange object with proper danish double formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
 eg.
 
@@ -51,10 +52,11 @@ rather than format
   "USD": "14,20"
 }
 
-
-- Proper dao/database layer handling :
+### Proper dao/database layer handling
 -   Atomic batch request for multiple updates: transfor funds
 -   Refactoring, particular around the connection object
-- Proper exception handling
+
+  
+###  Proper exception handling
 -   Various ErrorCodes with different message responses depending on the scenario
 -   Refactor to get rid of the try catch cluttering
