@@ -35,8 +35,6 @@ GET /exchange/rate/{fromCurrency}/{toCurrency}/{fundsAmount} : Exchange an amoun
 ## Considerations
 Custom exceptions and error handling:
 
-Ignored package vulnerbilities:
-
 ## TODO
 ### Danish double or BigDecimal format
 - Return exchange object with proper danish double formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
@@ -71,3 +69,5 @@ and let the frontend be in charge of what is presented to the end user...
 ### Consider proper use of quarkus object annotation in relation to dependency injection
 - @ApplicationScoped, @Dependent, @Singleton and custom ones ...
 Has not been a priority given first use of Quarkus, along with a lot of time fiddling with the h2 configuration and setup.
+
+### Ignored package vulnerbilities
