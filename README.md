@@ -67,3 +67,7 @@ and let the frontend be in charge of what is presented to the end user...
 ###  Proper exception handling
 -   Various ErrorCodes with different message responses depending on the scenario
 -   Refactor to get rid of the try catch cluttering
+
+### Consider proper use of quarkus object annotation in relation to dependency injection
+@ApplicationScoped, @Dependent, @Singleton and custom ones ...
+Has not been a priority given first use of Quarkus, along with a lot of time fiddling with the h2 configuration and setup.
