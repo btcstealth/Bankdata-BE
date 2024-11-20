@@ -3,6 +3,7 @@ package org.btc.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @ApplicationScoped
 @JsonSerialize(using = CurrencyExchangeSerializer.class)

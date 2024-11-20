@@ -2,6 +2,7 @@ package org.btc.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @ApplicationScoped
 public class CurrencyPair {
