@@ -6,7 +6,10 @@ import org.btc.gateway.ExchangeGatewayImpl;
 import org.btc.model.Account;
 
 import javax.sql.DataSource;
-import java.sql.*; //TODO: avoid this, be explicit
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -107,7 +110,12 @@ public class AccountDaoImpl implements AccountDao {
         Connection connection = this.dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, accountNumber);
-        return statement.executeQuery();
+        ResultSet resultSet = statement.executeQuery();
+
+        //TODO: refactor this
+        statement.close();
+        connection.close();
+        return resultSet;
     }
 
     @Override
