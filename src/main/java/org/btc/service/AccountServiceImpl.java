@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.btc.dao.AccountDao;
 import org.btc.model.Account;
+import org.btc.utils.exceptionhandling.GenericException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,20 +33,33 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double fundsAmount) {
         if (isAllowedToPerformTransfer(senderAccountNumber, retrieverAccountNumber, fundsAmount)) {
-            accountDao.transferFunds(senderAccountNumber, retrieverAccountNumber, fundsAmount);
+            //TODO: ideally this should be performed as a single batch transaction with atomicity instead.
+            try {
+                //update account balance for sender account
+                accountDao.updateAccountBalance(senderAccountNumber, accountDao.getAccountBalance(senderAccountNumber) - fundsAmount);
+
+                //update account balance for receiver account
+                accountDao.updateAccountBalance(retrieverAccountNumber, accountDao.getAccountBalance(retrieverAccountNumber) + fundsAmount);
+            } catch (SQLException sqlException) {
+                throw new GenericException();
+            }
         }
     }
 
     private boolean isAllowedToPerformTransfer(Long senderAccountNumber, Long retrieverAccountNumber, double fundsAmount) {
-        return accountExists(senderAccountNumber) &&
+        return hasBalanceForTransfer(senderAccountNumber, fundsAmount) &&
                 accountExists(retrieverAccountNumber) &&
-                isAuthenticatedForSenderAccount() &&
-                hasBalanceForTransfer(senderAccountNumber, fundsAmount);
+                isAuthenticatedForSenderAccount();
     }
 
-
-    private boolean hasBalanceForTransfer(Long senderAccountNumber, double fundsAmount) {
-        return this.getAccountBalance(senderAccountNumber) >= fundsAmount;
+    private boolean hasBalanceForTransfer(Long senderAccountNumber, double sendAmount) {
+        try {
+            // check that account balance for sender contains the amount
+            return (accountDao.getAccountBalance(senderAccountNumber) - sendAmount) >= 0;
+        } catch (SQLException sqlException) {
+            //doesn't have the funds ErrorCode...
+            throw new GenericException(sqlException.getMessage());
+        }
     }
 
     private boolean accountExists(Long accountNumber) {

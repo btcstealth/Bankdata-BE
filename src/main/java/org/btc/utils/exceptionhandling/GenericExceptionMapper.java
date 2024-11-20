@@ -19,8 +19,8 @@ public class GenericExceptionMapper implements ExceptionMapper<GenericException>
     private Response handleErrorCode(GenericException e) {
         if (e.getErrorCode() == ErrorCode.unsupportedCurrencyCode) {
             return Response.status(500).entity(e.getErrorCode().toString() + " , " +  e.getMessage()).build();
+            //consider different responses based on errorCode with a switch case, a map or similar logic.
         } else {
-            //consider different responses based on errorCode.
             return Response.status(500).entity(e.getErrorCode().getCode() + " , " +  e.getMessage()).build();
         }
     }

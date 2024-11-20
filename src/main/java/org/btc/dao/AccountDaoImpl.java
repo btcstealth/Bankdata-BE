@@ -95,10 +95,8 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double amount) {
+    public void transferFundsBatch(Long senderAccountNumber, Long retrieverAccountNumber, double amount) {
         //TODO: update this
-
-        /*
         final String query = "UPDATE account " +
                 "SET balance = ?" +
                 "WHERE account_number = ?";
@@ -106,15 +104,17 @@ public class AccountDaoImpl implements AccountDao {
         try {
             Connection connection = this.dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, accountNumber);
-            statement.setLong(2, accountNumber);
+            statement.addBatch(query);
+            statement.addBatch(query);
+            //to be implemented
+
+            //statement.setLong(1, accountNumber);
+            //statement.setLong(2, accountNumber);
             int result = statement.executeUpdate();
             logger.info("Update request result: " + result);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
-         */
     }
 
     @Override

@@ -17,7 +17,7 @@ public class Account {
     private Long accountNumber;
     @NotBlank(message = "Firstname may not be blank")
     @Column(name = "first_name")
-    @Schema(example = "Thomas", required = true)
+    @Schema(example = "Mette", required = true)
     private String firstName;
     @NotBlank(message = "Lastname may not be blank")
     @Column(name = "last_name")
@@ -28,7 +28,7 @@ public class Account {
     private double balance;
     @NotBlank(message = "Currency unit has to be defined")
     @Column(name = "currency_unit")
-    @Schema(example = "DKK", required = false)
+    @Schema(example = "DKK")
     private String currencyUnit;
 
     public Long getAccountNumber() {

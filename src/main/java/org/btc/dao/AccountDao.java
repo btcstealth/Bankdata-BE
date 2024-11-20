@@ -13,7 +13,7 @@ public interface AccountDao {
 
     void updateAccountBalance(Long accountNumber, double newBalance);
 
-    void transferFunds(Long senderAccountNumber, Long retrieverAccountNumber, double amount);
+    void transferFundsBatch(Long senderAccountNumber, Long retrieverAccountNumber, double amount);
 
     double getAccountBalance(Long accountNumber) throws SQLException;
 

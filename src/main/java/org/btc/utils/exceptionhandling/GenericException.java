@@ -5,6 +5,13 @@ import java.io.Serializable;
 public class GenericException extends RuntimeException implements Serializable {
     private ErrorCode errorCode;
 
+    public GenericException() {
+    }
+
+    public GenericException(String message) {
+        super(message);
+    }
+
     public GenericException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;

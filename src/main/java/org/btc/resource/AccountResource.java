@@ -10,7 +10,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.btc.model.Account;
 import org.btc.service.AccountService;
@@ -23,6 +22,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import java.util.List;
 
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+
 @Path("/account")
 public class AccountResource {
 
@@ -30,15 +31,15 @@ public class AccountResource {
     AccountService accountService;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @Operation(summary = "Get all accounts in database, exposed for test purposes")
     public List<Account> getAllAccounts() {
         return accountService.getAllAccounts();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @Operation(summary = "Create new account")
     @APIResponses({
             @APIResponse(responseCode = "201", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Account.class))),
@@ -50,11 +51,9 @@ public class AccountResource {
         return Response.status(201).entity(account).build();
     }
 
-    //123345678
-
     @PATCH
     @Path("{accountNumber}/deposit/{funds}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @Operation(summary = "Deposit funds into an existing account by account number")
     public void depositFunds(
             @Parameter(description = "The account number to deposit funds into", required = true, schema = @Schema(example = "123345678"))
@@ -68,17 +67,27 @@ public class AccountResource {
     //probably better to encapsulate in an object to avoid the long path
     @PATCH
     @Path("{senderAccountNumber}/receiver/{receiverAccountNumber}/funds/{funds}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @Operation(summary = "Transfer funds between two accounts")
-    public void transferFunds(@PathParam("senderAccountNumber") @NotNull Long senderAccountNumber, @PathParam("receiverAccountNumber") @NotNull Long receiverAccountNumber, @PathParam("funds") @NotNull double funds) {
+    public void transferFunds(
+            @Parameter(description = "The account number for the sender account", required = true, schema = @Schema(example = "112345678"))
+            @PathParam("senderAccountNumber") @NotNull Long senderAccountNumber,
+            @Parameter(description = "The account number for the receiver account", required = true, schema = @Schema(example = "193345678"))
+            @PathParam("receiverAccountNumber") @NotNull Long receiverAccountNumber,
+            @Parameter(description = "The amount funds to be sent", required = true, schema = @Schema(example = "450000"))
+            @PathParam("funds") @NotNull double funds) {
         //there are more precise terms to describe sender and receiver of funds.
         accountService.transferFunds(senderAccountNumber, receiverAccountNumber, funds);
     }
 
     @GET
     @Path("/{accountNumber}/balance")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @Operation(summary = "Get the balance for an existing account")
+    @APIResponses({
+            @APIResponse(responseCode = "200", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(example = "3500000"))),
+            @APIResponse(responseCode = "500", description = "Internal error")
+    })
     public double getBalance(
             @Parameter(description = "Account number to get balance for", required = true, schema = @Schema(example = "123345678"))
             @PathParam("accountNumber") Long accountNumber) {
