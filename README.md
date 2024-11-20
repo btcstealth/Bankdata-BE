@@ -52,4 +52,9 @@ rather than format
 }
 
 
-- Proper dao/database layer handling : atomic batch request for multiple updates
+- Proper dao/database layer handling :
+-   Atomic batch request for multiple updates: transfor funds
+-   Refactoring, particular around the connection object
+- Proper exception handling
+-   Various ErrorCodes with different message responses depending on the scenario
+-   Refactor to get rid of the try catch cluttering
