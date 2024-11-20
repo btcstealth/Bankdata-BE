@@ -26,7 +26,7 @@ class AccountResourceTest {
         Account expectedAccount = account;
 
         final Account expectedAccentPresentAfterCreate = account;
-        
+
         // act and assert
         //figure out how to add input
         given()

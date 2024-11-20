@@ -20,7 +20,7 @@ public class ExchangeResource {
 
     //TODO: Consider making amount an option field on the other endpoint instead.
     @GET
-    @Path("rate/{fromCurrency}/{toCurrency}/{amount}")
+    @Path("/{fromCurrency}/{toCurrency}/{fundsAmount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Exchange an amount between two currencies")

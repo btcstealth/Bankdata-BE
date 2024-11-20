@@ -11,13 +11,15 @@ import static org.hamcrest.CoreMatchers.is;
 class ExchangeResourceTest {
     @Test
     void testGetExchangeRateEndpoint() {
-        // act and assert
-        //TODO: arrange call correctly with path params, currently getting 404 not found when running
-        //"/rate/{fromCurrency}/{toCurrency}"
+        // arrange
+        String fromCurrency = "DKK";
+        String toCurrency = "USD";
 
         //Can only validate on the statusCode since the exchange rate could change over time.
         given()
-            .when().get("/rate/DKK/USD")
+                .pathParam("fromCurrency", fromCurrency)
+                .pathParam("toCurrency", toCurrency)
+                .when().get("exchange/rate/{fromCurrency}/{toCurrency}")
                 .then()
                     .statusCode(200);
     }
@@ -25,28 +27,33 @@ class ExchangeResourceTest {
     @Test
     void testGetExchangeRateEndpointInvalidCurrencyCode() {
         // arrange
-        String expectedBody = "";
+        String fromCurrency = "NARK";
+        String toCurrency = "USD";
+
         // act and assert
-        //TODO: arrange call with path params
         given()
-            .when().get("/rate/{fromCurrency}/{toCurrency}")
+                .pathParam("fromCurrency", fromCurrency)
+                .pathParam("toCurrency", toCurrency)
+                .when().get("/exchange/rate/{fromCurrency}/{toCurrency}")
                 .then()
                     .statusCode(400);
     }
 
     @Test
-    void testexchangeCurrencyEndpoint() {
+    void testExchangeCurrencyEndpoint() {
         // arrange
         final String fromCurrency = "DKK";
         final String toCurrency = "USD";
         final double amount = 100.0;
-        final String expectedBody = "{ \"DKK\": 100,00, \"USD\": 14,61 }";
-        // act and assert
-        //TODO: arrange call with path params
-        //GET http://localhost:8080/exchange/DKK/USD/funds/100
+        final String expectedBody = "{\"DKK\":\"100,00\",\"USD\":\"14,61\"}";
+        //final String expectedBody = "{ \"DKK\": 100,00, \"USD\": 14,61 }";
 
+        //GET http://localhost:8080/exchange/DKK/USD/100
         given()
-            .when().get("/exchange/{fromCurrency}/{toCurrency}/funds/{amount}")
+                .pathParam("fromCurrency", fromCurrency)
+                .pathParam("toCurrency", toCurrency)
+                .pathParam("fundsAmount", amount)
+                .when().get("/exchange/{fromCurrency}/{toCurrency}/{fundsAmount}")
                 .then()
                     .statusCode(200)
                 .body(is(expectedBody));
