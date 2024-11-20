@@ -52,4 +52,4 @@ rather than format
 }
 
 
-- Proper dao/database layer handling
+- Proper dao/database layer handling : atomic batch request for multiple updates
