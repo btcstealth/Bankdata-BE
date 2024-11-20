@@ -38,7 +38,7 @@ Custom exceptions and error handling:
 Ignored package vulnerbilities:
 
 ## TODO
-- Return exchange object with proper danish formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
+- Return exchange object with proper danish double formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
 eg.
 
 {
