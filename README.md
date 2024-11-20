@@ -52,6 +52,13 @@ rather than format
   "USD": "14,20"
 }
 
+Generally I would prefer to return the ordinary english format:
+{
+  "DKK": 100.00,
+  "USD": 14.20
+}
+and let the frontend be in charge of what is presented to the end user...
+
 ### Proper dao/database layer handling
 -   Atomic batch request for multiple updates: transfor funds
 -   Refactoring, particular around the connection object
