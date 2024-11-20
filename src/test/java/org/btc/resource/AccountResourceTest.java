@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 class AccountResourceTest {
+    //TODO: find solution for clearing persistent database storage between each test, such that all tests can be run from class.
+
     @Test
     void testGetAllAccountsEndpoint() {
         given()
