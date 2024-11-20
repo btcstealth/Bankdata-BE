@@ -10,6 +10,7 @@ Java backend
 - Navigate to: localhost:8080/swagger-ui for an easy overview of the endpoints or access for instance Postman via url: localhost:8080/{full endpointUrl}.
 - Pick an endpoint and click 'Try it out', relevant input data that runs should already be suggested as an example.
 - Click 'Execute' and the response body will be shown along with http code below.
+- If running endpoints tests, make sure to run test at a time. The current setup does not support multiple due to the h2 setup, it can't currently reset til database for each test.
 
 ## Endpoints and functionality
 ### Account endpoints:
