@@ -71,3 +71,6 @@ and let the frontend be in charge of what is presented to the end user...
 Has not been a priority given first use of Quarkus, along with a lot of time fiddling with the h2 configuration and setup.
 
 ### Ignored package vulnerbilities
+
+
+### Avoid hardcoded api key and potententially inline sql
