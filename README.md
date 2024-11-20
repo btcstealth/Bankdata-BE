@@ -45,9 +45,7 @@ eg.
   "DKK": 100,00,
   "USD": 14,20
 }
-
-Rather than:
- 
+Rather than: 
 {
   "DKK": "100,00",
   "USD": "14,20"
