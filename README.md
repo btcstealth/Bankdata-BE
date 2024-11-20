@@ -27,7 +27,7 @@ PATCH /account/{senderAccountNumber}/receiver/{receiverAccountNumber}/funds/{fun
 
 GET /exchange/rate/{fromCurrency}/{toCurrency} : Get current exchange rate between two currencies
 
-GET/exchange/rate/{fromCurrency}/{toCurrency}/{amount} : Exchange an amount between two currencies
+GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount} : Exchange an amount between two currencies
 
 ### Curl examples for endpoints:
 ....
