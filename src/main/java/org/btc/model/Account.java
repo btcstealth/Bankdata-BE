@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @ApplicationScoped
 @Entity
@@ -12,17 +13,22 @@ public class Account {
 
     @Id
     @Column(name = "account_number", unique = true)
+    @Schema(example = "234567891", required = true)
     private Long accountNumber;
     @NotBlank(message = "Firstname may not be blank")
     @Column(name = "first_name")
+    @Schema(example = "Thomas", required = true)
     private String firstName;
     @NotBlank(message = "Lastname may not be blank")
     @Column(name = "last_name")
+    @Schema(example = "Jensen", required = true)
     private String lastName;
-    //@NotBlank(message = "Balance has to be defined")
+    @Schema(example = "2450000", required = true)
+
     private double balance;
     @NotBlank(message = "Currency unit has to be defined")
     @Column(name = "currency_unit")
+    @Schema(example = "DKK", required = false)
     private String currencyUnit;
 
     public Long getAccountNumber() {

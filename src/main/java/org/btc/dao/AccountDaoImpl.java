@@ -44,8 +44,9 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account createAccount(Account account) {
+        //TODO: fix to be correct related to prepared statement
         final String queryCreateAccount =
-                String.format("INSERT INTO account(accountNumber, firstName, lastName, balance, currencyUnit)" +
+                String.format("INSERT INTO account(account_number, first_name, last_name, balance, currency_unit)" +
                         " VALUES(%s, '%s', '%s', %s, '%s');",
                         account.getAccountNumber(),
                         account.getFirstName(),
@@ -66,11 +67,11 @@ public class AccountDaoImpl implements AccountDao {
 
     private Account prepareAccount(ResultSet resultSet) throws SQLException {
         return new Account()
-                .withBalance(resultSet.getDouble(1))
-                .withAccountNumber(resultSet.getLong(2))
-                .withFirstName(resultSet.getString(4))
-                .withLastName(resultSet.getString(5))
-                .withCurrencyUnit(resultSet.getString(3));
+                .withBalance(resultSet.getDouble("balance"))
+                .withAccountNumber(resultSet.getLong("account_number"))
+                .withFirstName(resultSet.getString("first_name"))
+                .withLastName(resultSet.getString("last_name"))
+                .withCurrencyUnit(resultSet.getString("currency_unit"));
     }
 
     @Override
@@ -84,8 +85,9 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account getAccount(Long accountNumber) {
-        final String queryGetAccountByAccountNumber = "SELECT * FROM Account WHERE accountNumber = ?";
+        final String queryGetAccountByAccountNumber = "SELECT * FROM Account WHERE account_number = ?";
         Account existingAccount = null;
+        //TODO: refactor such that connection is closed after database request.
         try {
             ResultSet resultSet = executeQuery(queryGetAccountByAccountNumber, accountNumber);
             while (resultSet.next()) {
@@ -112,7 +114,7 @@ public class AccountDaoImpl implements AccountDao {
     public double getAccountBalance(Long accountNumber) throws SQLException {
         double accountBalance = 0.0;
 
-        final String queryGetAccountByAccountNumber = "SELECT * FROM Account WHERE accountNumber = ?";
+        final String queryGetAccountByAccountNumber = "SELECT balance FROM Account WHERE account_number = ?";
         Connection connection = this.dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement(queryGetAccountByAccountNumber);
         statement.setLong(1, accountNumber);
@@ -120,10 +122,7 @@ public class AccountDaoImpl implements AccountDao {
         try {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                resultSet.getLong(1);
-                resultSet.getString(2);
-                resultSet.getString(3);
-                resultSet.getString(4);
+                resultSet.getDouble("balance");
             }
         } catch (Exception e) {
             //potentially handle differently
