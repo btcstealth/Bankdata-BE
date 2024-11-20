@@ -74,3 +74,5 @@ Has not been a priority given first use of Quarkus, along with a lot of time fid
 
 
 ### Avoid hardcoded api key and potententially inline sql
+- Api key in hosted environment variable or settings.xml
+- ORM / mapper instead of SQL for database access
