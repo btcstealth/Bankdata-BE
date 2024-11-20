@@ -76,3 +76,8 @@ Has not been a priority given first use of Quarkus, along with a lot of time fid
 ### Avoid hardcoded api key and potententially inline sql
 - Api key in hosted environment variable or settings.xml
 - ORM / mapper instead of SQL for database access
+
+### Improve tests
+- Find solution for clearing persistent database storage between each test, such that all tests can be run in sequence from the class
+- Add more negative / edge cases for tests.
+- Added unit / behavioural tests for service and dao layer.
