@@ -31,13 +31,48 @@ GET /exchange/rate/{fromCurrency}/{toCurrency} : Get current exchange rate betwe
 GET /exchange/rate/{fromCurrency}/{toCurrency}/{fundsAmount} : Exchange an amount between two currencies
 
 ### Curl examples for endpoints:
-....
+AccountResource:
+curl -X 'GET' \
+  'http://localhost:8080/account' \
+  -H 'accept: application/json'
+
+
+curl -X 'POST' \
+  'http://localhost:8080/account' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "accountNumber": 234567891,
+  "firstName": "Mette",
+  "lastName": "Jensen",
+  "balance": 2450000,
+  "currencyUnit": "DKK"
+}'
+
+
+curl -X 'GET' \
+  'http://localhost:8080/account/123345678/balance' \
+  -H 'accept: application/json'
+
+
+curl -X 'PATCH' \
+  'http://localhost:8080/account/123345678/deposit/1000000' \
+  -H 'accept: */*'
+
+
+curl -X 'PATCH' \
+  'http://localhost:8080/account/112345678/receiver/193345678/funds/450000' \
+  -H 'accept: */*'
+
+ExchangeResource:
+curl --location 'http://localhost:8080/exchange/DKK/USD/100'
+curl --location 'http://localhost:8080/exchange/DKK/USD/100'
 
 ## Considerations
 Custom exceptions and error handling:
 
 ## TODO
-### Danish double or BigDecimal format
+### Danish double or BigDecimal format, and JSON serialization
 - Return exchange object with proper danish double formatting for endpoint: GET /exchange/rate/{fromCurrency}/{toCurrency}/{amount}
 eg.
 
