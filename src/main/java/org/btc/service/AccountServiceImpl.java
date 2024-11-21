@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
                 //update account balance for receiver account
                 accountDao.updateAccountBalance(retrieverAccountNumber, accountDao.getAccountBalance(retrieverAccountNumber) + fundsAmount);
             } catch (SQLException sqlException) {
-                throw new GenericException();
+                throw new GenericException(sqlException.getMessage());
             }
         }
     }
@@ -73,11 +73,11 @@ public class AccountServiceImpl implements AccountService {
             try {
                 return accountDao.getAccountBalance(accountNumber);
             } catch (SQLException sqlException) {
-                throw new RuntimeException();
+                throw new GenericException(sqlException.getMessage());
             }
         } else {
-            // throw some authentication error
-            throw new RuntimeException();
+            // throw some custom authentication error
+            throw new GenericException();
         }
     }
 

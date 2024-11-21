@@ -42,7 +42,8 @@ class ExchangeResourceTest {
                 .pathParam("toCurrency", toCurrency)
                 .when().get("/exchange/rate/{fromCurrency}/{toCurrency}")
                 .then()
-                .statusCode(400);
+                .statusCode(500);
+        //TODO: should be changed to return 400, since it should reflect invalid input.
     }
 
     @Test

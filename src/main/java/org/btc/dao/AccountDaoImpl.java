@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.btc.gateway.ExchangeGatewayImpl;
 import org.btc.model.Account;
+import org.btc.utils.exceptionhandling.GenericException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -34,7 +35,7 @@ public class AccountDaoImpl implements AccountDao {
             return accountList;
         } catch (Exception e) {
             //potentially handle differently
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
     }
 
@@ -64,7 +65,7 @@ public class AccountDaoImpl implements AccountDao {
             logger.info("Create request result: " + result);
             return account;
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
     }
 
@@ -90,7 +91,7 @@ public class AccountDaoImpl implements AccountDao {
             int result = statement.executeUpdate();
             logger.info("Update request result: " + result);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
     }
 
@@ -106,14 +107,12 @@ public class AccountDaoImpl implements AccountDao {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.addBatch(query);
             statement.addBatch(query);
-            //to be implemented
 
             //statement.setLong(1, accountNumber);
             //statement.setLong(2, accountNumber);
             int result = statement.executeUpdate();
-            logger.info("Update request result: " + result);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
     }
 
@@ -121,22 +120,18 @@ public class AccountDaoImpl implements AccountDao {
     public Account getAccount(Long accountNumber) {
         final String queryGetAccountByAccountNumber = "SELECT * FROM Account WHERE account_number = ?";
         Account existingAccount = null;
-        //TODO: refactor such that connection is closed after database request.
+        //TODO: refactor such that statement and connection is closed after database request.
         try {
             ResultSet resultSet = executeQuery(queryGetAccountByAccountNumber, accountNumber);
             while (resultSet.next()) {
                 existingAccount = prepareAccount(resultSet);
             }
-            //TODO: refactor this
-            //statement.close();
-            //connection.close();
-
             if (existingAccount == null) {
-                throw new RuntimeException();
+                throw new GenericException();
             }
         } catch (Exception e) {
             //potentially handle differently
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
         return existingAccount;
     }
@@ -163,10 +158,10 @@ public class AccountDaoImpl implements AccountDao {
             }
         } catch (Exception e) {
             //potentially handle differently
-            throw new RuntimeException(e.getMessage());
+            throw new GenericException(e.getMessage());
         } finally {
             statement.close();
         }
-        throw new RuntimeException();
+        throw new GenericException();
     }
 }

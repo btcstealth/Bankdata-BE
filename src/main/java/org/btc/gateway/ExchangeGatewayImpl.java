@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.btc.utils.exceptionhandling.GenericException;
 import org.btc.utils.mapper.ExchangeMapper;
 import org.btc.model.CurrencyExchange;
 
@@ -48,7 +49,7 @@ public class ExchangeGatewayImpl implements ExchangeGateway {
 
             return properties.getProperty("api.key");
         } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+            throw new GenericException(ioe.getMessage());
         }
     }
 
@@ -70,7 +71,7 @@ public class ExchangeGatewayImpl implements ExchangeGateway {
             JsonNode jsonNode = objectMapper.readTree(jsonResponseStr);
             return Double.parseDouble(jsonNode.get("conversion_result").toString());
         } catch (JsonProcessingException jpe) {
-            throw new RuntimeException();
+            throw new GenericException();
         }
     }
 
@@ -84,11 +85,10 @@ public class ExchangeGatewayImpl implements ExchangeGateway {
             double exchangeConversionRate = exchangeMapper.getExchangeConversionRate(response);
             return exchangeConversionRate;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new GenericException();
         }
     }
 
-    //beautify this
     private String performRequest(String requestUrl, String requestMethod) {
         try {
             URL url = new URL(requestUrl);
@@ -104,17 +104,15 @@ public class ExchangeGatewayImpl implements ExchangeGateway {
                     response.append(inputLine);
                 }
                 in.close();
-                logger.info(response.toString());
                 return response.toString();
             } else {
                 //log error and throw exception, potentially custom exception
-                logger.info("Error: " + responseCode);
-                throw new RuntimeException();
+                throw new GenericException();
             }
         } catch (Exception e) {
             //log error and throw exception, potentially custom exception
-            logger.info("Error: " + e.getMessage());
-            throw new RuntimeException(this.apiKey);
+            logger.info("Error: " + e);
+            throw new GenericException(e.getMessage());
         }
     }
 }
